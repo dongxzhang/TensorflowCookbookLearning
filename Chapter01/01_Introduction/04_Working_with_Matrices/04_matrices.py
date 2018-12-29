@@ -23,7 +23,7 @@ A = tf.truncated_normal([2,3])
 print(sess.run(A))
 
 # 2x3 constant matrix
-B = tf.fill([2,3], 5.0)
+B = tf.fill(dims = [2,3], value = 5.0)
 print(sess.run(B))
 
 # 3x2 random uniform matrix
