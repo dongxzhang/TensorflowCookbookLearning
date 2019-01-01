@@ -69,6 +69,7 @@ print(y_train[0,])  # this is a frog
 from PIL import Image
 img = Image.fromarray(X_train[0,:,:,:])
 plt.imshow(img)
+plt.show()
 
 
 # Ham/Spam Text Data
