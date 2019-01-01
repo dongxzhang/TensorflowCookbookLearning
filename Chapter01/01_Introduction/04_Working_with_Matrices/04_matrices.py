@@ -15,23 +15,23 @@ sess = tf.Session()
 # Declaring matrices
 
 # Identity matrix
-identity_matrix = tf.diag([1.0,1.0,1.0])
+identity_matrix = tf.diag(diagonal = [1.0,1.0,1.0])
 print(sess.run(identity_matrix))
 
 # 2x3 random norm matrix
-A = tf.truncated_normal([2,3])
+A = tf.truncated_normal(shape = [2,3])
 print(sess.run(A))
 
 # 2x3 constant matrix
-B = tf.fill([2,3], 5.0)
+B = tf.fill(dims = [2,3], value = 5.0)
 print(sess.run(B))
 
 # 3x2 random uniform matrix
-C = tf.random_uniform([3,2])
+C = tf.random_uniform(shape = [3,2])
 print(sess.run(C))  # Note that we are reinitializing, hence the new random variables
 
 # Create matrix from np array
-D = tf.convert_to_tensor(np.array([[1., 2., 3.], [-3., -7., -1.], [0., 5., -2.]]))
+D = tf.convert_to_tensor(value = np.array([[1., 2., 3.], [-3., -7., -1.], [0., 5., -2.]]))
 print(sess.run(D))
 
 # Matrix addition/subtraction
