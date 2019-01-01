@@ -131,7 +131,7 @@ print(neg_data[0])
 # The Works of Shakespeare Data
 import requests
 
-shakespeare_url = 'http://www.gutenberg.org/cache/epub/100/pg100.txt'
+shakespeare_url = 't'
 # Get Shakespeare text
 response = requests.get(shakespeare_url)
 shakespeare_file = response.content

@@ -143,6 +143,7 @@ for i in range(1500):
 ###
 
 # Plot loss over time
+plt.figure(1)
 plt.plot(loss_vec, 'k-')
 plt.title('Cross Entropy Loss per Generation')
 plt.xlabel('Generation')
@@ -150,6 +151,7 @@ plt.ylabel('Cross Entropy Loss')
 plt.show()
 
 # Plot train and test accuracy
+plt.figure(2)
 plt.plot(train_acc, 'k-', label='Train Set Accuracy')
 plt.plot(test_acc, 'r--', label='Test Set Accuracy')
 plt.title('Train and Test Accuracy')
