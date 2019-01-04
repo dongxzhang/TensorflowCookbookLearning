@@ -50,8 +50,8 @@ y_target_test = tf.placeholder(shape=[None, 10], dtype=tf.float32)
 # Declare distance metric
 # L1
 distance = tf.reduce_sum(tf.abs(tf.subtract(x_data_train, tf.expand_dims(x_data_test,1))), axis=2)
-
-# L2
+#erre = tf.subtract(x_data_train, tf.expand_dims(x_data_test,1))
+# L2tmp
 #distance = tf.sqrt(tf.reduce_sum(tf.square(tf.subtract(x_data_train, tf.expand_dims(x_data_test,1))), reduction_indices=1))
 
 # Predict: Get min distance index (Nearest neighbor)
