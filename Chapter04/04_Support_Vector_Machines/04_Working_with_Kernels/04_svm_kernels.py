@@ -121,7 +121,7 @@ plt.ylabel('y')
 plt.legend(loc='lower right')
 plt.ylim([-1.5, 1.5])
 plt.xlim([-1.5, 1.5])
-plt.show()
+plt.show()#block=False
 
 # Plot batch accuracy
 plt.plot(batch_accuracy, 'k-', label='Accuracy')
@@ -129,7 +129,7 @@ plt.title('Batch Accuracy')
 plt.xlabel('Generation')
 plt.ylabel('Accuracy')
 plt.legend(loc='lower right')
-plt.show()
+plt.show()#block=False
 
 # Plot loss over time
 plt.plot(loss_vec, 'k-')

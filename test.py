@@ -8,4 +8,6 @@ e = tf.multiply(c, d)
 print(sess.run(e))
 f = tf.multiply(e, d)
 print(sess.run(f))
-pring(3)
+print(3)
+import numpy as np
+z = np.array([1,2])
