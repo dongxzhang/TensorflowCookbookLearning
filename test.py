@@ -20,6 +20,16 @@ with tf.variable_scope("foo",reuse =tf.AUTO_REUSE):
     print(sess.run(v))
 
 
+with tf.variable_scope("foo1",reuse = False):
+    v1= tf.get_variable('v1',[1], initializer = tf.constant_initializer(5.0))
+    print(v1==v) #输出为True，代表v1与v是相同的变量
+    init = tf.initialize_all_variables()
+    sess.run(init)
+    print(sess.run(v1))
+    print(sess.run(v))
+
+print(foo.v1.name)
+
 '''
 #获取变量的方式主要有以下两种，实践中tf.get_variable产生的变量一定要搭配tf.variable_scope使用，不然运行脚本会报错
 #v = tf.get_variable('v222',shape= [1],initializer = tf.constant_initializer(10.0))
