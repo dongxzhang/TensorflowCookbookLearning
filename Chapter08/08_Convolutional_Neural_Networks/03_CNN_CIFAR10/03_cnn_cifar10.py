@@ -51,6 +51,7 @@ num_gens_to_wait = 250.
 image_vec_length = image_height * image_width * num_channels
 record_length = 1 + image_vec_length # ( + 1 for the 0-9 label)
 
+
 # Load data
 data_dir = 'temp'
 if not os.path.exists(data_dir):
@@ -74,6 +75,8 @@ else:
 # Define CIFAR reader
 def read_cifar_files(filename_queue, distort_images = True):
     reader = tf.FixedLengthRecordReader(record_bytes=record_length)
+    #every label uses 1 byte and every pixel in one channel uses 1 byte
+    #so record_bytes=record_length
     key, record_string = reader.read(filename_queue)
     record_bytes = tf.decode_raw(record_string, tf.uint8)
     image_label = tf.cast(tf.slice(record_bytes, [0], [1]), tf.int32)
@@ -96,7 +99,7 @@ def read_cifar_files(filename_queue, distort_images = True):
 
     # Normalize whitening
     final_image = tf.image.per_image_standardization(final_image)
-    return final_image, image_label
+    return final_image, image_label, record_string
 
 
 # Create a CIFAR image pipeline from reader
@@ -106,7 +109,7 @@ def input_pipeline(batch_size, train_logical=True):
     else:
         files = [os.path.join(data_dir, extract_folder, 'test_batch.bin')]
     filename_queue = tf.train.string_input_producer(files)
-    image, label = read_cifar_files(filename_queue)
+    image, label, record_string = read_cifar_files(filename_queue)
     
     # min_after_dequeue defines how big a buffer we will randomly sample
     #   from -- bigger means better shuffling but slower start up and more
@@ -121,7 +124,7 @@ def input_pipeline(batch_size, train_logical=True):
                                                         capacity=capacity,
                                                         min_after_dequeue=min_after_dequeue)
 
-    return example_batch, label_batch
+    return example_batch, label_batch, record_string
 
     
 # Define the model architecture, this will return logits from images
@@ -234,9 +237,9 @@ def accuracy_of_batch(logits, targets):
 # Get data
 print('Getting/Transforming Data.')
 # Initialize the data pipeline
-images, targets = input_pipeline(batch_size, train_logical=True)
+images, targets, record_string = input_pipeline(batch_size, train_logical=True)
 # Get batch test images and targets from pipline
-test_images, test_targets = input_pipeline(batch_size, train_logical=False)
+test_images, test_targets, record_string = input_pipeline(batch_size, train_logical=False)
 
 # Declare Model
 print('Creating the CIFAR10 Model.')
@@ -271,11 +274,12 @@ tf.train.start_queue_runners(sess=sess)
 
 # Train CIFAR Model
 print('Starting Training')
+
 train_loss = []
 test_accuracy = []
 for i in range(generations):
     _, loss_value = sess.run([train_op, loss])
-    
+    #print(sess.run(record_string))
     if (i+1) % output_every == 0:
         train_loss.append(loss_value)
         output = 'Generation {}: Loss = {:.5f}'.format((i+1), loss_value)
@@ -293,13 +297,15 @@ eval_indices = range(0, generations, eval_every)
 output_indices = range(0, generations, output_every)
 
 # Plot loss over time
+plt.figure(1)
 plt.plot(output_indices, train_loss, 'k-')
 plt.title('Softmax Loss per Generation')
 plt.xlabel('Generation')
 plt.ylabel('Softmax Loss')
-plt.show()
+plt.show(block=False)
 
 # Plot accuracy over time
+plt.figure(2)
 plt.plot(eval_indices, test_accuracy, 'k-')
 plt.title('Test Accuracy')
 plt.xlabel('Generation')

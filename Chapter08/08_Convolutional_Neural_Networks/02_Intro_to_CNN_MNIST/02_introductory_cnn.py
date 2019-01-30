@@ -18,6 +18,8 @@ sess = tf.Session()
 # Load data
 data_dir = 'temp'
 mnist = input_data.read_data_sets(data_dir, one_hot=False)
+#one_hot=True, every label is a list of 10
+#one_hot denotes one hot encoding
 
 # Convert images into 28x28 (they are downloaded as 1x784)
 train_xdata = np.array([np.reshape(x, (28, 28)) for x in mnist.train.images])

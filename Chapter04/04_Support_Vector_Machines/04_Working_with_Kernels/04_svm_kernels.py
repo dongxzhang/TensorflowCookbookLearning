@@ -112,6 +112,7 @@ grid_points = np.c_[xx.ravel(), yy.ravel()]
 grid_predictions = grid_predictions.reshape(xx.shape)
 
 # Plot points and grid
+plt.figure(1)
 plt.contourf(xx, yy, grid_predictions, cmap=plt.cm.Paired, alpha=0.8)
 plt.plot(class1_x, class1_y, 'ro', label='Class 1')
 plt.plot(class2_x, class2_y, 'kx', label='Class -1')
@@ -121,17 +122,19 @@ plt.ylabel('y')
 plt.legend(loc='lower right')
 plt.ylim([-1.5, 1.5])
 plt.xlim([-1.5, 1.5])
-plt.show()#block=False
+plt.show(block=False)#block=False
 
 # Plot batch accuracy
+plt.figure(2)
 plt.plot(batch_accuracy, 'k-', label='Accuracy')
 plt.title('Batch Accuracy')
 plt.xlabel('Generation')
 plt.ylabel('Accuracy')
 plt.legend(loc='lower right')
-plt.show()#block=False
+plt.show(block=False)#block=False
 
 # Plot loss over time
+plt.figure(3)
 plt.plot(loss_vec, 'k-')
 plt.title('Loss per Generation')
 plt.xlabel('Generation')
