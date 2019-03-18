@@ -25,11 +25,12 @@ ops.reset_default_graph()
 sess = tf.Session()
 
 # Check if data was downloaded, otherwise download it and save for future use
-save_file_name = os.path.join('temp','temp_spam_data.csv')
+dir_spam = "D:\\教学\\机器学习\\Python机器学习及实践\\Datasets\\spam"
+save_file_name = os.path.join(dir_spam,'temp_spam_data.csv')
 
 # Create directory if it doesn't exist
-if not os.path.exists('temp'):
-    os.makedirs('temp')
+if not os.path.exists(dir_spam):
+    os.makedirs(dir_spam)
 
 if os.path.isfile(save_file_name):
     text_data = []
@@ -49,7 +50,8 @@ else:
     text_data = [x.split('\t') for x in text_data if len(x)>=1]
     
     # And write to csv
-    with open(save_file_name, 'w') as temp_output_file:
+    #原始代码没有 newline=""，会导致csv文件中出现空行
+    with open(save_file_name, 'w', newline="") as temp_output_file:
         writer = csv.writer(temp_output_file)
         writer.writerows(text_data)
 
@@ -75,9 +77,10 @@ texts = [' '.join(x.split()) for x in texts]
 # Plot histogram of text lengths
 text_lengths = [len(x.split()) for x in texts]
 text_lengths = [x for x in text_lengths if x < 50]
+plt.figure(1)
 plt.hist(text_lengths, bins=25)
 plt.title('Histogram of # of Words in Texts')
-
+plt.show()
 # Choose max text word length at 25
 sentence_size = 25
 min_word_freq = 3
@@ -175,6 +178,7 @@ for ix, t in enumerate(vocab_processor.fit_transform(texts_test)):
 print('\nOverall Test Accuracy: {}'.format(np.mean(test_acc_all)))
 
 # Plot training accuracy over time
+plt.figure(2)
 plt.plot(range(len(train_acc_avg)), train_acc_avg, 'k-', label='Train Accuracy')
 plt.title('Avg Training Acc Over Past 50 Generations')
 plt.xlabel('Generation')
